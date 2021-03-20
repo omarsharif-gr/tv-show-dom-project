@@ -3,19 +3,38 @@ function setup() {
   const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
   let body = document.querySelector("body");
-  let searchBox = document.createElement("input")
+  let searchBox = document.createElement("input");
   searchBox.type = "text"
   searchBox.name = "searchBar"
   searchBox.id = "searchBar"
   searchBox.placeholder = "search here..."
+  searchBox.classList.add("searchBar");
   body.appendChild(searchBox)
+  //Get input element
+  let filterInput = document.getElementById("searchBar")
+  
+  filterInput.addEventListener("keyup", (e) => {
+    let result = e.target.value.toLowerCase();
 
-  for (let i = 0; i < 73; i++) {
+    const filtered = allEpisodes.filter((movie) => {
+      return movie.name.toLowerCase().includes(result) || movie.summary.toLowerCase().includes(result);
+    });
+    
+    makePageForEpisodes(filtered)
+    repeatFunction(filtered)
+  });
+  //create for loop
+  for (let i = 0; i <= 73; i++) {
+    let sectionLevel100 = document.createElement("section");
+    sectionLevel100.classList.add("col-12");
+    sectionLevel100.classList.add("level100");
+    body.appendChild(sectionLevel100);
+    //define function to repeat the three different episodes
+    function repeatFunction(){
       //Create Div
       let createDiv = document.createElement("div");
       createDiv.classList.add("col-4");
-      body.appendChild(createDiv);
-    
+      sectionLevel100.appendChild(createDiv);
       //Create Header with contents
       let header = document.createElement("h1");
       header.classList.add("col-4");
@@ -33,16 +52,22 @@ function setup() {
       paragraph.innerHTML = `${allEpisodes[i]["summary"]}`
       paragraph.classList.add("col-4");
       createDiv.appendChild(paragraph)
+      //Ensured that 'i' is still being incremented.
+      i++;
+    }
+    repeatFunction()
+    repeatFunction()
+    repeatFunction()
   }
+  let footerContainer = document.createElement("footer");
+  footerContainer.innerHTML="Data on this site is taken from TV MAZE API"
+  footerContainer.classList.add("footer-cont")
+  body.appendChild(footerContainer)
 }
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
   rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-  // for(let item in episodeList){
-  //   let allItems = episodeList[item];
-  //   console.log(allItems);
-  // }
   console.log("Hi");
 }
 
