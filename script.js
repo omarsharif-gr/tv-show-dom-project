@@ -5,6 +5,7 @@ function setup() {
     outputResultsOfSearch();
     outputResultsOfDropdown(allEpisodes);
     selectShows()
+    getAllEpisodes(showID)
     
 }
 function getAllEpisodes(showID) {
@@ -81,7 +82,7 @@ function selectShows() {
     let optionDropdownForShows = document.createElement("option")
     optionDropdownForShows.innerHTML = "Click here to chose a show - this is the main menue"
     selectDropdownForShows.appendChild(optionDropdownForShows);
-    let listOfShows = getAllShows();
+    listOfShows = getAllShows();
     for (let i = 0; i < listOfShows.length; i++) {
         let option = document.createElement('option');
         option.value = listOfShows[i]["id"];
@@ -90,6 +91,7 @@ function selectShows() {
         let showID = listOfShows[i]["id"];
     }
     option.addEventListener('change', (e) => {
+        let showID1 = listOfShows[i]["id"]
     getAllEpisodes(showID)
 })
 }
@@ -176,10 +178,9 @@ function makePageForEpisodes(listOfEpisodes) {
                 paragraph.classList.add("col-4");
                 createDiv.appendChild(paragraph)
                 console.log(i)
-                //Ensured that 'i' is still being incremented.
             }
             repeatFunction()
     }
     
 }
-window.onload = getAllEpisodes();
+window.onload = setup;
