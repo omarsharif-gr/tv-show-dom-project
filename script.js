@@ -8,14 +8,14 @@ function setup() {
     getAllEpisodes(showID)
     
 }
-function getAllEpisodes(showID) {
+function getAllEpisodes(showID = "82"({
     const url = `https://api.tvmaze.com/shows/${showID}/episodes`;
     fetch(url)
         .then(
             function (response) {
                 if (response.status !== 200) {
                     console.warn(`Looks like there was a problem. Status Code: ${response.status}` +
-                        response.status);
+                        response.status);getAllEpisodes
                     return;
                 }
                 response.json().then(function (data) {
@@ -30,7 +30,7 @@ function getAllEpisodes(showID) {
             console.error('Fetch Error -', err);
         });
 
-}
+}))
 // created header
 let header = document.querySelector("header");
 // created nav element and appended it to the header element
@@ -88,11 +88,10 @@ function selectShows() {
         option.value = listOfShows[i]["id"];
         option.innerHTML = `${listOfShows[i]["name"]} - ${listOfShows[i]["id"]}`
         selectDropdownForShows.add(option);
-        let showID = listOfShows[i]["id"];
     }
     option.addEventListener('change', (e) => {
-        let showID1 = listOfShows[i]["id"]
-    getAllEpisodes(showID)
+        let showID = e.event.target
+    getAllEpisodes1(showID)
 })
 }
 function outputResultsOfDropdown(allEpisodes) {
@@ -183,4 +182,4 @@ function makePageForEpisodes(listOfEpisodes) {
     }
     
 }
-window.onload = setup;
+window.onload = getAllEpisodes(showID);
