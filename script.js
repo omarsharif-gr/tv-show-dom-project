@@ -143,23 +143,23 @@ function makePageForEpisodes(listOfEpisodes) {
     function repeatFunction() {
       //Create Div
       let createDiv = document.createElement("div");
-      // createDiv.classList.add("col-4");
+      createDiv.classList.add("col-4");
       createDiv.classList.add("episodeClass");
       sectionLevel100.appendChild(createDiv);
       //Create Header with contents
       let header = document.createElement("h1");
-      // header.classList.add("col-4");
+      header.classList.add("col-10");
       header.innerHTML = `${listOfEpisodes[i]["name"]} - S0${listOfEpisodes[i]["season"]}E0${listOfEpisodes[i]["number"]}`;
       createDiv.appendChild(header);
       //create image tag with contents
       let image = document.createElement("img");
       image.src = `${listOfEpisodes[i]["image"]["medium"]}`;
-      // image.classList.add("col-4");
+      image.classList.add("col-10");
       createDiv.appendChild(image);
       //Create a paragraph with contents
       let paragraph = document.createElement("p");
       paragraph.innerHTML = `${listOfEpisodes[i]["summary"]}`;
-      // paragraph.classList.add("col-4");
+      paragraph.classList.add("col-10");
       createDiv.appendChild(paragraph);
       console.log(i);
     }

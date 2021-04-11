@@ -1,13 +1,10 @@
-#root {
-  color: red;
-}
-h1{
-  color: red;
-  border: 5px red;
-  display: flex;
-  flex-direction: row;
-}
 .level100{
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
+}
+
+footer {
+  background-color: #efe5dc;
+  padding: 1%;
+  margin-bottom: 0px;
 }
