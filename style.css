@@ -16,3 +16,8 @@ footer {
 .imageDimensions{
   height: 20%;
 }
+
+button{
+  margin-left: 35%;
+  margin-right: 35%;
+}

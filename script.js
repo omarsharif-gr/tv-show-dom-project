@@ -22,7 +22,6 @@ function getAllEpisodes(showID = "82") {
         allEpisodes = data;
         makePageForEpisodes(allEpisodes);
         outputResultsOfSearch(allEpisodes);
-        outputResultsOfDropdown(allEpisodes);
         selectShows();
         createRevertButton()
       });
@@ -43,12 +42,13 @@ function outputResultsOfSearch(allEpisodes) {
   searchBox.name = "searchBar";
   searchBox.id = "searchBar";
   searchBox.placeholder = "search here...";
-  searchBox.classList.add("searchBar");
+  searchBox.classList.add("searchBar", "col-4");
   navElement.appendChild(searchBox);
   let putEpisodesOnPage = document.getElementsByClassName("episodeClass");
   resultOfSearch = document.createElement("label");
-  resultOfSearch.classList.add("mySearchResult");
+  resultOfSearch.classList.add("searchBar");
   resultOfSearch.innerHTML = `Displaying ${putEpisodesOnPage.length}/${allEpisodes.length} episodes`;
+  resultOfSearch.classList.add("searchBar", "col-4")
   navElement.appendChild(resultOfSearch);
   searchBox.addEventListener("keyup", searchEpisodes);
   function searchEpisodes(e) {
@@ -75,6 +75,7 @@ function selectShows() {
   let selectDropdownForShows = document.createElement("select");
   selectDropdownForShows.id = "dropdown1";
   selectDropdownForShows.name = "dropdown";
+  selectDropdownForShows.classList.add("searchBar", "col-4")
   navElement.appendChild(selectDropdownForShows);
   let optionDropdownForShows = document.createElement("option");
   optionDropdownForShows.innerHTML =
@@ -173,7 +174,7 @@ function createNewPageForEpisodes() {
   let listOfShows = getAllShows()
   for (let i = 0; i < listOfShows.length; i++){
     let showDetailsSection = document.createElement("section")
-    showDetailsSection.classList.add("col-12")
+    showDetailsSection.classList.add("col-12", "episodeClass")
     rootElem.appendChild(showDetailsSection)
     // Title:
     let showTitleWrapper = document.createElement("a")
@@ -236,6 +237,7 @@ function createRevertButton() {
   let button = document.createElement("button")
   button.id = "revertButton"
   button.innerHTML = "Select a different show"
+  button.classList.add("revertButton", "col-4")
   button.addEventListener("click", buttonClicked)
   function buttonClicked() {
     let rootElem = document.getElementById("root")
@@ -246,9 +248,9 @@ function createRevertButton() {
   navElement.appendChild(button)
 }
 function createdNewPagForShows() {
-  let allEpisodes = getAllShows()
+  let searchShows = getAllShows()
   createNewPageForEpisodes()
-  outputResultsOfSearch(allEpisodes)
+  outputResultsOfSearch(searchShows)
   selectShows()
 }
 window.onload = createdNewPagForShows();
