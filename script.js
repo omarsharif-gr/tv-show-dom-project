@@ -1,12 +1,13 @@
 //You can edit ALL of the code here
 
-showID = 82;
+let showID;
 function getAllEpisodes(showID = "82") {
   let rootElem = document.getElementById("root");
   rootElem.innerHTML = ""
   let header = document.getElementsByTagName("nav");
   navElement.innerHTML = ""
   const url = `https://api.tvmaze.com/shows/${showID}/episodes`;
+  console.log(showID)
   fetch(url)
     .then(function (response) {
       if (response.status !== 200) {
@@ -23,6 +24,7 @@ function getAllEpisodes(showID = "82") {
         outputResultsOfSearch(allEpisodes);
         outputResultsOfDropdown(allEpisodes);
         selectShows();
+        createRevertButton()
       });
     })
     .catch(function (err) {
@@ -34,7 +36,7 @@ let header = document.querySelector("header");
 // created nav element and appended it to the header element
 let navElement = document.createElement("nav");
 header.appendChild(navElement);
-function outputResultsOfSearch() {
+function outputResultsOfSearch(allEpisodes) {
   // Created input element for search Box. Appended this to nav element
   let searchBox = document.createElement("input");
   searchBox.type = "text";
@@ -88,7 +90,7 @@ function selectShows() {
   selectDropdownForShows.addEventListener("change", () => {
     showID = selectDropdownForShows.options[selectDropdownForShows.selectedIndex].value;
     getAllEpisodes(showID);
-    })
+  })
 }
 function outputResultsOfDropdown(allEpisodes) {
   let selectDropdown = document.createElement("select");
@@ -105,31 +107,31 @@ function outputResultsOfDropdown(allEpisodes) {
     moreOptions.innerHTML = `${allEpisodes[i]["name"]} - S0${allEpisodes[i]["season"]}E0${allEpisodes[i]["number"]}`;
     selectDropdown.appendChild(moreOptions);
   }
-  selectDropdown.addEventListener("change", (e) => {
-    let selectedOption = e.target.value;
-    let putEpisodesOnPage = document.getElementsByClassName("episodeClass");
-    allEpisodes.forEach((episode) => {
-      if (episode.innerText.includes(selectedOption)) {
-        episode.style.display = "";
+  selectDropdown.addEventListener("change", searchEpisodes)
+  let putEpisodesOnPage = document.getElementsByClassName("episodeClass");
+  function searchEpisodes(e) {
+    let searchInput = e.target.value;
+    let episodesOnPage = Array.from(putEpisodesOnPage);
+    let newEpisodes = [];
+    episodesOnPage.forEach((episodeInArray) => {
+      if (episodeInArray.innerText.includes(searchInput)) {
+        episodeInArray.style.display = "";
       } else {
-        episode.style.display = "none";
+        episodeInArray.style.display = "none";
       }
-      if (
-        selectedOption ===
-        "Click here to chose an episode - this is the main menue"
-      ) {
-        episode.style.display = "";
+      if (searchInput === "Click here to chose an episode - this is the main menue") {
+        episodeInArray.style.display = "";
       }
-    });
-  });
-  // let episodesOnPage = Array.from(allEpisodes);
-  // const result = document.getElementById('root');
-  // result.innerHTML = `You like ${event.target}`;
-  // let output = event.target.value
-  // if (episodesOnPage.innerText.includes(event.target)) {
-  //     episodesOnPage.style.display = "";
-  // }
-  // });
+    })
+    // let episodesOnPage = Array.from(allEpisodes);
+    // const result = document.getElementById('root');
+    // result.innerHTML = `You like ${event.target}`;
+    // let output = event.target.value
+    // if (episodesOnPage.innerText.includes(event.target)) {
+    //     episodesOnPage.style.display = "";
+    // }
+    // });
+  }
 }
 function makePageForEpisodes(listOfEpisodes) {
   const rootElem = document.getElementById("root");
@@ -166,4 +168,87 @@ function makePageForEpisodes(listOfEpisodes) {
     repeatFunction();
   }
 }
-window.onload = getAllEpisodes(showID);
+function createNewPageForEpisodes() {
+  let rootElem = document.getElementById("root")
+  let listOfShows = getAllShows()
+  for (let i = 0; i < listOfShows.length; i++){
+    let showDetailsSection = document.createElement("section")
+    showDetailsSection.classList.add("col-12")
+    rootElem.appendChild(showDetailsSection)
+    // Title:
+    let showTitleWrapper = document.createElement("a")
+    let showTitle = document.createElement("h3");
+    showTitleWrapper.classList.add("col-12")
+    showTitle.classList.add("col-12")
+    showTitle.addEventListener("click", getEpisodes)
+    function getEpisodes(e) {
+      showID = +e.target.id;
+      console.log(showID)
+      rootElem.innerHTML = "";
+      getAllEpisodes(showID)
+    }
+    showTitle.innerHTML = `${listOfShows[i]["name"]}`;
+    showTitleWrapper.appendChild(showTitle);
+    showDetailsSection.appendChild(showTitleWrapper)
+    // div
+    let divInSection = document.createElement("div")
+    divInSection.classList.add("col-12", "changeStructure")
+    showDetailsSection.appendChild(divInSection)
+    // Image:
+    let showImage = document.createElement("img");
+    showImage.setAttribute("src", `${showFullImage(listOfShows, i)}`)
+    showImage.classList.add("col-3", "imageDimensions")
+    divInSection.appendChild(showImage);
+     // showSummary:
+    let showSummary = document.createElement("div")
+    showSummary.innerHTML = `${listOfShows[i].summary}`
+    showSummary.classList.add("col-6");
+    divInSection.appendChild(showSummary);
+    // Show Details:
+    let showDetails = document.createElement("div")
+    showDetails.classList.add("col-3")
+    divInSection.appendChild(showDetails)
+      // Rated:
+    let rated = document.createElement("h6")
+    rated.innerHTML = `Rated: ${listOfShows[i]["rating"]["average"]}`
+      // Genres:
+    let genres = document.createElement("h6")
+    genres.innerHTML = `Genres: ${listOfShows[i]["genres"]}`
+      // Status:
+    let status = document.createElement("h6")
+    status.innerHTML =`Status: ${listOfShows[i]["status"]}`
+      // Runtime:
+    let runtime = document.createElement("h6")
+    runtime.innerHTML = `Runtime: ${listOfShows[i]["runtime"]}`
+
+    showDetails.append(rated, genres, status, runtime);
+  }
+}
+function showFullImage(listOfShows, i) {
+  if (listOfShows[i]["image"] === null) {
+    return ("issue")
+  }
+  else {
+    return listOfShows[i]["image"]["medium"]
+  }
+}
+function createRevertButton() {
+  let button = document.createElement("button")
+  button.id = "revertButton"
+  button.innerHTML = "Select a different show"
+  button.addEventListener("click", buttonClicked)
+  function buttonClicked() {
+    let rootElem = document.getElementById("root")
+    rootElem.innerHTML = ""
+    navElement.innerHTML = ""
+    createdNewPagForShows()
+  }
+  navElement.appendChild(button)
+}
+function createdNewPagForShows() {
+  let allEpisodes = getAllShows()
+  createNewPageForEpisodes()
+  outputResultsOfSearch(allEpisodes)
+  selectShows()
+}
+window.onload = createdNewPagForShows();

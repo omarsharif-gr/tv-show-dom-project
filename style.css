@@ -8,3 +8,11 @@ footer {
   padding: 1%;
   margin-bottom: 0px;
 }
+.changeStructure{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+.imageDimensions{
+  height: 20%;
+}
