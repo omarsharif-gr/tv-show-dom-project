@@ -47,7 +47,7 @@ function outputResultsOfSearch(allEpisodes) {
   let putEpisodesOnPage = document.getElementsByClassName("episodeClass");
   resultOfSearch = document.createElement("label");
   resultOfSearch.classList.add("searchBar");
-  resultOfSearch.innerHTML = `Displaying ${putEpisodesOnPage.length}/${allEpisodes.length} episodes`;
+  resultOfSearch.innerHTML = `Displaying ${putEpisodesOnPage.length}/${allEpisodes.length}`;
   resultOfSearch.classList.add("searchBar", "col-4")
   navElement.appendChild(resultOfSearch);
   searchBox.addEventListener("keyup", searchEpisodes);
@@ -164,7 +164,6 @@ function makePageForEpisodes(listOfEpisodes) {
       paragraph.innerHTML = `${listOfEpisodes[i]["summary"]}`;
       paragraph.classList.add("col-10");
       createDiv.appendChild(paragraph);
-      console.log(i);
     }
     repeatFunction();
   }
@@ -181,12 +180,13 @@ function createNewPageForEpisodes() {
     let showTitle = document.createElement("h3");
     showTitleWrapper.classList.add("col-12")
     showTitle.classList.add("col-12")
+    showTitle.id = listOfShows[i].id;
     showTitle.addEventListener("click", getEpisodes)
     function getEpisodes(e) {
       showID = +e.target.id;
-      console.log(showID)
       rootElem.innerHTML = "";
       getAllEpisodes(showID)
+      console.log(e)
     }
     showTitle.innerHTML = `${listOfShows[i]["name"]}`;
     showTitleWrapper.appendChild(showTitle);
