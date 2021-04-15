@@ -22,7 +22,7 @@ function getAllEpisodes(showID = "82") {
         allEpisodes = data;
         makePageForEpisodes(allEpisodes);
         outputResultsOfSearch(allEpisodes);
-        selectShows();
+        outputResultsOfDropdown(allEpisodes)
         createRevertButton()
       });
     })
@@ -97,10 +97,10 @@ function outputResultsOfDropdown(allEpisodes) {
   let selectDropdown = document.createElement("select");
   selectDropdown.id = "dropdown";
   selectDropdown.name = "dropdown";
+  selectDropdown.classList.add("searchBar","col-4")
   navElement.appendChild(selectDropdown);
   let optionDropdown = document.createElement("option");
-  optionDropdown.innerHTML =
-    "Click here to chose an episode - this is the main menue";
+  optionDropdown.innerHTML = "Click here to chose an episode - this is the main menue";
   selectDropdown.appendChild(optionDropdown);
   // Decalared the variable 'putEpisodesOnPage' again
   for (i = 0; i < allEpisodes.length; i++) {
